@@ -213,7 +213,8 @@ function amendCollectionItemAssignment(properties) {
         item = properties.item,
         index = properties.index,
         binder = properties.binder,
-        assignmentOperator = properties.assignmentOperator;
+        assignmentOperator = properties.assignmentOperator,
+        condition = properties.condition;
 
     if (assignment.object[0] === "this") {
         let value = objectProperty(element, assignment.object.slice(1));
@@ -225,10 +226,16 @@ function amendCollectionItemAssignment(properties) {
 
         if (binder === "if") {
             element.dataset[binder] = arrayToDotNotation(assignment.object);
+
+            if (condition !== undefined) {
+                element.dataset[binder] = condition ?
+                    element.dataset[binder] :
+                    `!${element.dataset[binder]}`;
+            }
         } else {
             element.dataset[binder] = element.dataset[binder] ?
                 `${element.dataset[binder]}; ${arrayToDotNotation(assignment.property)}${assignmentOperator}${arrayToDotNotation(assignment.object)}` :
-            `${arrayToDotNotation(assignment.property)}${assignmentOperator}${arrayToDotNotation(assignment.object)}`;
+                `${arrayToDotNotation(assignment.property)}${assignmentOperator}${arrayToDotNotation(assignment.object)}`;
         }
     }
 
@@ -270,11 +277,16 @@ function setCollectionToElement(bound) {
                 child.dataset[`${bound.collectionItem}Index`] = index;
 
                 if (child.dataset[binder].includes(bound.collectionItem)) {
-                    let assignmentOperator;
+                    let assignmentOperator,
+                        condition;
                     if (binder !== "if") {
                         assignmentOperator = binder === "repeat" ?
                             " of " :
                             ":";
+                    } else {
+                        condition = child.dataset[binder].includes("!") ?
+                            false :
+                            true;
                     }
 
                     let assignments = getAssignments(child.dataset[binder], assignmentOperator);
@@ -288,7 +300,8 @@ function setCollectionToElement(bound) {
                             item: bound.collectionItem,
                             index: index,
                             binder: binder,
-                            assignmentOperator: assignmentOperator
+                            assignmentOperator: assignmentOperator,
+                            condition: condition
                         });
                     }
                 }
