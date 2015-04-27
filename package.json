@@ -1,0 +1,18 @@
+{
+    "name": "movi",
+    "version": "0.1",
+    "description": "Una librería para enlazar objetos de JavaScript con documentos HTML",
+    "main": "movi.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/lovedder/movi.git"
+    },
+    "keywords": [
+        "data-binding",
+        "Object.observe"
+    ],
+    "author": {
+        "name": "Edder",
+        "email": "lovedder95@gmail.com"
+    }
+}
