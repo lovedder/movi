@@ -17,7 +17,7 @@
     },
     "jspm": {
         "dependencies": {
-            "lovedder/movi": "github:lovedder/objectProperty@master"
+            "lovedder/objectProperty": "github:lovedder/objectProperty@master"
         }
     }
 }
