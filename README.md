@@ -46,7 +46,7 @@ var product = {
 
 Solo tienes que declararla de manera implícita en la vista y/o el modelo.
 
-Implícita en el modelo
+Implícita en el modelo:
 ```html
 <!DOCTYPE html>
 <html>
@@ -80,7 +80,7 @@ Implícita en el modelo
 </html>
 ```
 
-Implícita en el vista
+Implícita en el vista:
 ```html
 <!DOCTYPE html>
 <html>
@@ -114,9 +114,9 @@ Implícita en el vista
         </script>
     </body>
 </html>
+```
 
-El modelo siempre superpondrá la vista y si algo esta declarado solo en la vista se tomará el valor del primer elemento analizado. Por ejemplo:
-
+El modelo siempre superpondrá la vista y si algo esta declarado solo en la vista se tomará el valor del primer elemento analizado. Por ejemplo: En el siguiente caso primero son analizados los elementos "p" que "input":
 ```html
 <!DOCTYPE html>
 <html>
@@ -154,4 +154,41 @@ El modelo siempre superpondrá la vista y si algo esta declarado solo en la vist
     </body>
 </html>
 ```
-En este caso primero son analizados los elementos "p" que "input".
+
+# Enlazar funciones con eventos
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+
+        <form data-bind-event="submit: App.createProduct(App.product.name, App.product.price)">
+            <input data-bind="value: App.product.name">
+            <input data-bind="value: App.product.price">
+            <button>Create</button>
+        </form>
+
+        <script src="jspm_packages/system.js"></script>
+        <script src="config.js"></script>
+        <script>
+            var App = {
+                product: {
+                    name: "Aguacate",
+                    price: 43
+                }
+            };
+
+            App.createProduct = function(name, price) {
+                console.log("Product created, name: " + name + ", price: " + price);
+            };
+
+            System.import("lovedder/movi").then(function(movi) {
+                movi.bindData();
+            });
+        </script>
+    </body>
+</html>
+```
