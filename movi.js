@@ -215,16 +215,21 @@ function amendCollectionItemAssignment(properties) {
         binder = properties.binder,
         assignmentOperator = properties.assignmentOperator;
 
-    if (assignment.object[0] === item) {
-        assignment.object[0] = `${collection}.${index}`;
-    }
-
-    if (binder === "if") {
-        element.dataset[binder] = arrayToDotNotation(assignment.object);
+    if (assignment.object[0] === "this") {
+        let value = objectProperty(element, assignment.object.slice(1));
+        objectProperty(element, assignment.property, value);
     } else {
-        element.dataset[binder] = element.dataset[binder] ?
-            `${element.dataset[binder]}; ${arrayToDotNotation(assignment.property)}${assignmentOperator}${arrayToDotNotation(assignment.object)}` :
+        if (assignment.object[0] === item) {
+            assignment.object[0] = `${collection}.${index}`;
+        }
+
+        if (binder === "if") {
+            element.dataset[binder] = arrayToDotNotation(assignment.object);
+        } else {
+            element.dataset[binder] = element.dataset[binder] ?
+                `${element.dataset[binder]}; ${arrayToDotNotation(assignment.property)}${assignmentOperator}${arrayToDotNotation(assignment.object)}` :
             `${arrayToDotNotation(assignment.property)}${assignmentOperator}${arrayToDotNotation(assignment.object)}`;
+        }
     }
 
     if (assignment.arguments) {
