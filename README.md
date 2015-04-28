@@ -40,6 +40,10 @@ jspm install github:lovedder/movi
 ```
 
 # Implementación
+```html
+<element data-bind="attribute: object.property"></element>
+```
+
 Ejemplo: Quieres implementar la siguiente abstracción:
 ```js
 var product = {
@@ -132,6 +136,11 @@ También puedes usar la variable especial "this" que hace referencia al elemento
 
 # Enlazar eventos
 ```html
+<element data-bind-event="event: object.method"></element>
+```
+
+Ejemplo:
+```html
 <form data-bind-event="submit: App.createProduct(App.product)">
     <input data-bind="value: App.product.name">
     <input data-bind="value: App.product.price">
@@ -159,6 +168,12 @@ También puedes usar la variable especial "this" que hace referencia al elemento
 ```
 
 # Enlazar colecciones
+```html
+<element data-repeat="item of object.collection">
+    <child data-bind="attribute: item.property"></child>
+</element>
+```
+
 Al enlazar una colección a un elemento se repetirá el contenido del mismo. Todos los elementos hijos tienen una referencia a su padre en el atributo "data-[padre]-index"
 Puedes anidar colecciones y no estas obligado a enlazar solo información dentro del ámbito de la colección.
 
@@ -292,6 +307,12 @@ En los siguientes ejemplos se repetirá el elemento "tr" tres veces, se puede ac
 ```
 
 # Enlazar condiciones
+```html
+<element data-if="object.property">
+    <child data-bind="attribute: object.property"></child>
+</element>
+```
+
 Al enlazar una condición a un elemento puedes controlar la presencia o ausencia de su contenido:
 ```html
 <form data-bind-event="submit: App.createProduct(App.product)">
