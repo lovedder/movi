@@ -30,6 +30,10 @@ model === view; // true
 */
 ```
 
+# Documentación
+Para utilizar esta librería hay que saber usar en conjunto JavaScript, CSS y HTML. No impone ningún otro aprendizaje.
+Para que funcione se necesita un navegador que soporte los métodos "Object.observe", "Array.observe" y "String.prototype.includes".
+
 # Instalación
 ```js
 jspm install github:lovedder/movi
@@ -126,7 +130,7 @@ El modelo siempre superpondrá la vista y si algo esta declarado solo en la vist
 ```
 También puedes usar la variable especial "this" que hace referencia al elemento. Mira como enlazar colecciones para más detalle.
 
-# Enlazar funciones con eventos
+# Enlazar eventos
 ```html
 <form data-bind-event="submit: App.createProduct(App.product)">
     <input data-bind="value: App.product.name">
