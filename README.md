@@ -34,6 +34,28 @@ model === view; // true
 Para utilizar esta librería hay que saber usar en conjunto JavaScript, CSS y HTML. No impone ningún otro aprendizaje.
 Para que funcione se necesita un navegador que soporte los métodos "Object.observe", "Array.observe" y "String.prototype.includes".
 
+En resumen, para enlazar:
+* Atributos(implementación)
+```html
+<element data-bind="attribute: object.property"></element>
+```
+* Eventos(enlazar-eventos)
+```html
+<element data-bind-event="event: object.method"></element>
+```
+* Colecciones(enlazar-colecciones)
+```html
+<element data-repeat="item of object.collection">
+<child data-bind="attribute: item.property"></child>
+</element>
+```
+* Condiciones(enlazar-condiciones)
+```html
+<element data-if="object.property">
+<child data-bind="attribute: object.property"></child>
+</element>
+```
+
 # Instalación
 ```js
 jspm install github:lovedder/movi
@@ -174,7 +196,7 @@ Ejemplo:
 </element>
 ```
 
-Al enlazar una colección a un elemento se repetirá el contenido del mismo. Todos los elementos hijos tienen una referencia a su padre en el atributo "data-[padre]-index"
+Al enlazar una colección a un elemento se repetirá el contenido del mismo. Todos los elementos hijos tienen una referencia a su padre en el atributo "data-[padre]-index".
 Puedes anidar colecciones y no estas obligado a enlazar solo información dentro del ámbito de la colección.
 
 En los siguientes ejemplos se repetirá el elemento "tr" tres veces, se puede acceder al índice de la repetición obteniendo el valor del atributo "data-product-index" y se enlaza la función "App.deleteProduct" que esta fuera del ámbito de la colección:
