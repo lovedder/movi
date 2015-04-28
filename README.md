@@ -17,7 +17,7 @@ let product = {
 let model = product;
 let view = product;
 
-model.name = "cebolla";
+model.name = "Cebolla";
 view.price = 7;
 
 model === view; // true
@@ -26,7 +26,7 @@ model === view; // true
     product === {
         name: "Cebolla",
         price: 7
-    }
+    };
 */
 ```
 
@@ -191,9 +191,9 @@ En los siguientes ejemplos se repetirá el elemento "tr" tres veces, se puede ac
     var App = {
         product: "",
         products: [
-            "chile",
-            "tomate",
-            "cebolla"
+            "Chile",
+            "Tomate",
+            "Cebolla"
         ]
     };
 
@@ -215,11 +215,12 @@ En los siguientes ejemplos se repetirá el elemento "tr" tres veces, se puede ac
 
 ```html
 <form data-bind-event="submit: App.createProduct(App.product)">
-    <label>New product
+    <fieldset>
+        <legend>New product</legend>
         <input data-bind="value: App.product.name">
         <input data-bind="value: App.product.price">
-    </label>
-    <button>Create</button>
+        <button>Create</button>
+    </fieldset>
 </form>
 
 <table>
@@ -252,15 +253,15 @@ En los siguientes ejemplos se repetirá el elemento "tr" tres veces, se puede ac
         },
         products: [
             {
-                name:"chile",
+                name:"Chile",
                 price: 8
             },
             {
-                name: "tomate",
+                name: "Tomate",
                 price: 11
             },
             {
-                name: "cebolla",
+                name: "Cebolla",
                 price: 9
             }
         ]
@@ -284,5 +285,107 @@ En los siguientes ejemplos se repetirá el elemento "tr" tres veces, se puede ac
         movi.bindData();
     });
 </script>
+```
 
+# Enlazar condiciones
+Al enlazar una condición a un elemento puedes controlar la presencia o ausencia de su contenido:
+```html
+<form data-bind-event="submit: App.createProduct(App.product)">
+    <fieldset>
+        <legend>New product</legend>
+        <input data-bind="value: App.product.name">
+        <input data-bind="value: App.product.price">
+        <button>Create</button>
+    </fieldset>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <td>Index</td>
+            <td>Name</td>
+            <td>Price</td>
+            <td></td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody data-repeat="product of App.products">
+        <tr>
+            <td data-bind="textContent: this.dataset.productIndex"></td>
+            <td>
+                <div data-if="!product.editing">
+                    <p data-bind="textContent: product.name"></p>
+                </div>
+                <div data-if="product.editing">
+                    <input data-bind="value: product.name">
+                </div>
+            </td>
+            <td>
+                <div data-if="!product.editing">
+                    <p data-bind="textContent: product.price"></p>
+                </div>
+                <div data-if="product.editing">
+                    <input data-bind="value: product.price">
+                </div>
+            </td>
+            <td data-if="!product.editing">
+                <p data-bind-event="click: App.editProduct(product)">Edit</p>
+            </td>
+            <td data-if="product.editing">
+                <p data-bind-event="click: App.editProduct(product)">Save</p>
+            </td>
+            <td data-bind-event="click: App.deleteProduct(this.dataset.productIndex)">X</td>
+        </tr>
+    </tbody>
+</table>
+
+<script src="jspm_packages/system.js"></script>
+<script src="config.js"></script>
+<script>
+
+    var App = {
+        product: {
+            name: "",
+            price: ""
+        },
+        products: [
+            {
+                name:"Chile",
+                price: 8
+            },
+            {
+                name: "Tomate",
+                price: 11
+            },
+            {
+                name: "Cebolla",
+                price: 9
+            }
+        ]
+    };
+
+    App.createProduct = function(product) {
+        App.products.unshift({
+            name: product.name,
+            price: product.price
+        });
+
+        App.product.name = "";
+        App.product.price = "";
+    };
+
+    App.deleteProduct = function(index) {
+        App.products.splice(index, 1);
+    };
+
+    App.editProduct = function(product) {
+        product.editing = product.editing ?
+            false :
+            true;
+    };
+
+    System.import("lovedder/movi").then(function(movi) {
+        movi.bindData();
+    });
+</script>
 ```
