@@ -46,13 +46,13 @@ En resumen, para enlazar:
 * [Colecciones](#enlazar-colecciones)
 ```html
 <element data-repeat="item of object.collection">
-<child data-bind="attribute: item.property"></child>
+    <child data-bind="attribute: item.property"></child>
 </element>
 ```
 * [Condiciones](#enlazar-condiciones)
 ```html
 <element data-if="object.property">
-<child data-bind="attribute: object.property"></child>
+    <child data-bind="attribute: object.property"></child>
 </element>
 ```
 
