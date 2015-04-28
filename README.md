@@ -35,21 +35,21 @@ Para utilizar esta librería hay que saber usar en conjunto JavaScript, CSS y HT
 Para que funcione se necesita un navegador que soporte los métodos "Object.observe", "Array.observe" y "String.prototype.includes".
 
 En resumen, para enlazar:
-* Atributos(implementación)
+* [Atributos](implementación)
 ```html
 <element data-bind="attribute: object.property"></element>
 ```
-* Eventos(enlazar-eventos)
+* [Eventos](enlazar-eventos)
 ```html
 <element data-bind-event="event: object.method"></element>
 ```
-* Colecciones(enlazar-colecciones)
+* [Colecciones](enlazar-colecciones)
 ```html
 <element data-repeat="item of object.collection">
 <child data-bind="attribute: item.property"></child>
 </element>
 ```
-* Condiciones(enlazar-condiciones)
+* [Condiciones](enlazar-condiciones)
 ```html
 <element data-if="object.property">
 <child data-bind="attribute: object.property"></child>
