@@ -194,16 +194,20 @@ function bindAttribute(bound) {
 }
 
 function bindEvent(bound) {
-    let args = "";
-    if (bound.arguments) {
-        args = `${bound.arguments.toString()}`;
+    if (objectProperty(window, bound.objectName.split("."))) {
+        let args = "";
+        if (bound.arguments) {
+            args = `${bound.arguments.toString()}`;
+        }
+
+        bound.element.setAttribute(`on${bound.event}`, `${bound.objectName}(${args})`);
+
+        bound.element.addEventListener(bound.event, event => {
+            event.preventDefault();
+        });
+    } else {
+        console.error(bound.element, `Bound function ${bound.objectName} is undefined`);
     }
-
-    bound.element.setAttribute(`on${bound.event}`, `${bound.objectName}(${args})`);
-
-    bound.element.addEventListener(bound.event, event => {
-        event.preventDefault();
-    });
 }
 
 function amendCollectionItemAssignment(properties) {
