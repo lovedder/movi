@@ -163,11 +163,22 @@ class ModelViewBind {
 function bindAttribute(bound) {
     let bind = new ModelViewBind(bound);
 
-    bind.modelView(bound.value);
+    if (bound.attribute === "value" && bound.element.type === "radio") {
+        if (bound.element.checked) {
+            bind.viewModel(bound.element.value);
+        }
+    } else {
+        bind.modelView(bound.value);
+    }
+
 
     let changeFromInput;
     if (bound.element.value !== undefined) {
-        bound.element.addEventListener("input", () => {
+        let event = bound.element.type === "radio" ?
+            "change" :
+            "input";
+
+        bound.element.addEventListener(event, () => {
             changeFromInput = true;
             if (bound.attribute === "value") {
                 bind.viewModel(bound.element.value);
@@ -183,7 +194,7 @@ function bindAttribute(bound) {
                     if (changeFromInput) {
                         changeFromInput = false;
                     } else {
-                        if (bound.property === change.name) bind.modelView(change.object[change.name]);
+                        if (bound.property === change.name && bound.element.type !== "radio") bind.modelView(change.object[change.name]);
                     }
                 }
             } else {
@@ -392,12 +403,16 @@ function bindCondition(bound) {
 }
 
 function bindValue(bound) {
-    if (bound.attribute === undefined) {
-        bound.element.dataset.condition = "";
-        bound.attribute = "dataset.condition";
+    if (bound.attribute !== "value" && bound.element.type !== "radio") {
+        if (bound.attribute === undefined) {
+            bound.element.dataset.condition = "";
+            bound.attribute = "dataset.condition";
+        }
+
+        let attributeValue = objectProperty(bound.element, arrayFormDotNotation(bound.attribute));
+        bound.object[bound.property] = attributeValue;
+        bound.value = attributeValue;
     }
-    bound.object[bound.property] = objectProperty(bound.element, arrayFormDotNotation(bound.attribute));
-    bound.value = objectProperty(bound.element, arrayFormDotNotation(bound.attribute));
 }
 
 function bindType(bind, element, assignment) {
